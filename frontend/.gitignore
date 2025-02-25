@@ -1,8 +1,5 @@
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
-# Ignore production environment file
-src/environments/environment.production.ts
-
 # Compiled output
 /dist
 /tmp
