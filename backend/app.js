@@ -48,8 +48,9 @@ app.get("/", (req, res) => {
 
 async function connectDb() {
   try {
-    await mongoose.connect("mongodb://127.0.0.1:27017", {
-      dbName: "ng-e-comm-store-db",
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
     console.log("Mongodb Connected");
   } catch (err) {
