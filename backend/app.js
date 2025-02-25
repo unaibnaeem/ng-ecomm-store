@@ -43,7 +43,7 @@ app.use("/product", verifyToken, isAdmin, productRoutes);
 app.use("/all-orders", verifyToken, isAdmin, orderRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World!");
+  res.send("Hello World");
 });
 
 async function connectDb() {
