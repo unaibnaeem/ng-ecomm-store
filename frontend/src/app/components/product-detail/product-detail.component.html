@@ -1,0 +1,253 @@
+@if (product) {
+  <div class="mx-auto my-8 max-w-6xl rounded-lg bg-white p-6 shadow-lg">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="space-y-4 text-center">
+        <div class="flex justify-center">
+          <img
+            [src]="selectedImage || product.images[0]"
+            alt="Product Image"
+            class="h-80 w-80 rounded-lg bg-gray-100 object-contain shadow-md"
+          />
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+          @for (image of product.images; track $index) {
+            <img
+              [src]="image"
+              alt=""
+              (click)="selectedImage = image"
+              class="h-20 w-20 cursor-pointer rounded-md border border-gray-300 object-contain transition-transform duration-200 hover:scale-105 hover:border-blue-500"
+            />
+          }
+        </div>
+      </div>
+
+      <div>
+        <h2 class="text-3xl font-bold text-gray-900">{{ product.name }}</h2>
+        <div class="mt-2 flex items-baseline space-x-3">
+          <div class="flex items-baseline justify-center space-x-2">
+            @if (product.discount > 0) {
+              <p class="text-xl text-gray-500 line-through">
+                ${{ product.price }}
+              </p>
+            }
+            <p class="text-2xl font-bold text-red-600">${{ sellingPrice }}</p>
+          </div>
+
+          @if (product.discount > 0) {
+            <span
+              class="rounded-full bg-green-100 px-2 py-1 text-xs font-semibold text-green-700"
+            >
+              Save {{ product.discount }}%
+            </span>
+          }
+        </div>
+        <p class="mt-5 text-gray-700">
+          {{ product.shortDescription }}
+        </p>
+        <div class="mt-6 flex">
+          @if (!authService.isAdmin) {
+            <button
+              class="flex items-center gap-2 rounded-md bg-red-500 px-6 py-3 text-white hover:bg-red-600"
+              (click)="onAddToWishlist($event, product)"
+            >
+              @if (isInWishlist(product)) {
+                <mat-icon>favorite</mat-icon> Remove from Wishlist
+              } @else {
+                <mat-icon>favorite_border</mat-icon> Add to Wishlist
+              }
+            </button>
+            <button
+              class="ml-2 flex items-center gap-2 rounded-md bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+              (click)="onAddToCart($event, product)"
+            >
+              @if (isInCart(product)) {
+                <mat-icon>remove_shopping_cart</mat-icon> Remove from Cart
+              } @else {
+                <mat-icon>add_shopping_cart</mat-icon> Add to Cart
+              }
+            </button>
+          } @else {
+            <button
+              [routerLink]="['/admin/products/', product._id]"
+              class="flex items-center gap-2 rounded-md bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+            >
+              Edit
+            </button>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10">
+      <h3 class="border-b pb-2 text-2xl font-semibold text-gray-800">
+        Product Details
+      </h3>
+      <div
+        class="mt-4 whitespace-pre-line px-2 text-justify leading-relaxed tracking-wide text-gray-600"
+      >
+        {{ product.description }}
+      </div>
+    </div>
+
+    @if (simiarProducts.length) {
+      <div class="mt-10">
+        <h3 class="border-b pb-2 text-2xl font-semibold text-gray-800">
+          Similar Products
+        </h3>
+        <div class="flex flex-wrap">
+          @for (newProduct of simiarProducts; track $index) {
+            <div class="mb-6 w-full px-1 sm:w-1/2 md:w-1/3 lg:w-1/4">
+              <app-product-card [product]="newProduct" />
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="mt-10">
+      <h3 class="border-b pb-2 text-2xl font-semibold text-gray-800">
+        Customer Reviews
+      </h3>
+      <div class="mt-4 space-y-4">
+        @if (reviews.length) {
+          @for (review of reviews; track $index) {
+            <div class="flex items-start justify-between rounded-md border p-4">
+              <div>
+                <h4 class="font-semibold">{{ review.name }}</h4>
+                <p class="text-sm text-gray-500">
+                  {{ getStars(review.rating) }}
+                </p>
+                <p class="mt-2 text-gray-700">{{ review.comment }}</p>
+              </div>
+              @if (authService.isAdmin) {
+                <button
+                  class="ml-4 flex items-center gap-2 rounded-md bg-red-600 px-3 py-1.5 text-white transition hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  (click)="onDeleteReview(product._id!, review._id!)"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path
+                      d="M19 6l-2 14H7L5 6m5 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"
+                    ></path>
+                  </svg>
+                  <span>Delete</span>
+                </button>
+              }
+            </div>
+          }
+        } @else {
+          <p class="text-gray-500">No reviews yet.</p>
+        }
+      </div>
+
+      @if (!authService.isAdmin) {
+        <div class="mt-10 rounded-md border bg-gray-50 p-6 shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800">Write a Review</h3>
+          <form (submit)="onSubmitReview($event)">
+            <div class="mt-4">
+              <label class="block font-medium text-gray-700">Your Name</label>
+              <input
+                type="text"
+                [(ngModel)]="review.name"
+                name="name"
+                required
+                class="w-full rounded-md border p-2"
+              />
+            </div>
+            <div class="mt-4">
+              <label class="block font-medium text-gray-700">Rating</label>
+              <select
+                [(ngModel)]="review.rating"
+                name="rating"
+                class="w-full rounded-md border p-2"
+                required
+              >
+                <option [value]="5">⭐⭐⭐⭐⭐ - Excellent</option>
+                <option [value]="4">⭐⭐⭐⭐ - Good</option>
+                <option [value]="3">⭐⭐⭐ - Average</option>
+                <option [value]="2">⭐⭐ - Poor</option>
+                <option [value]="1">⭐ - Bad</option>
+              </select>
+            </div>
+            <div class="mt-4">
+              <label class="block font-medium text-gray-700">Your Review</label>
+              <textarea
+                name="comment"
+                rows="3"
+                class="w-full rounded-md border p-2"
+                [(ngModel)]="review.comment"
+                required
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              class="mt-4 rounded-md bg-blue-600 px-6 py-2 text-white hover:bg-blue-700"
+            >
+              Submit Review
+            </button>
+          </form>
+        </div>
+      }
+    </div>
+  </div>
+} @else {
+  <div class="mx-auto mt-10 max-w-6xl rounded-lg bg-white p-6 shadow-lg">
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div class="space-y-4 text-center">
+        <div class="flex justify-center">
+          <div class="h-80 w-80 animate-pulse rounded-lg bg-gray-200"></div>
+        </div>
+        <div class="grid grid-cols-4 gap-2">
+          @for (item of loadingSkeletons; track $index) {
+            <div class="h-20 w-20 animate-pulse rounded-md bg-gray-200"></div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <div class="h-8 w-3/4 animate-pulse rounded-md bg-gray-200"></div>
+        <div class="mt-4 flex items-baseline space-x-3">
+          <div class="h-6 w-24 animate-pulse rounded-md bg-gray-200"></div>
+          <div class="h-6 w-16 animate-pulse rounded-md bg-gray-200"></div>
+        </div>
+        <div class="mt-5 h-16 animate-pulse rounded-md bg-gray-200"></div>
+        <div class="mt-6 flex gap-4">
+          <div class="h-10 w-32 animate-pulse rounded-md bg-gray-300"></div>
+          <div class="h-10 w-32 animate-pulse rounded-md bg-gray-300"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-10">
+      <div class="h-6 w-1/3 animate-pulse rounded-md bg-gray-200"></div>
+      <div class="mt-4 h-24 animate-pulse rounded-md bg-gray-100"></div>
+    </div>
+
+    <div class="mt-10">
+      <div class="h-6 w-1/3 animate-pulse rounded-md bg-gray-200"></div>
+      <div class="mt-4 flex gap-6">
+        @for (item of loadingSkeletons; track $index) {
+          <div class="h-40 w-32 animate-pulse rounded-md bg-gray-200"></div>
+        }
+      </div>
+    </div>
+
+    <div class="mt-10">
+      <div class="h-6 w-1/3 animate-pulse rounded-md bg-gray-200"></div>
+      <div class="mt-4 space-y-4">
+        @for (item of loadingSkeletons; track $index) {
+          <div class="h-20 w-full animate-pulse rounded-md bg-gray-200"></div>
+        }
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,63 @@
+<button
+  style="background: none; border: none; padding: 10px; cursor: pointer"
+  routerLink="/admin/brands"
+>
+  <svg
+    width="50"
+    height="50"
+    viewBox="0 0 24 24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      fill="black"
+      d="M12,1A11,11,0,1,0,23,12,11,11,0,0,0,12,1Zm6,12H8.414l2.293,2.293a1,1,0,1,1-1.414,1.414l-4-4a1,1,0,0,1,0-1.414l4-4a1,1,0,1,1,1.414,1.414L8.414,11H18a1,1,0,0,1,0,2Z"
+    />
+  </svg>
+</button>
+
+<div class="mt-1 flex flex-col items-center px-40">
+  @if (isEdit) {
+    <h2>Update Brand</h2>
+  } @else {
+    <h2>Add New Brand</h2>
+  }
+  <form class="w-96 p-4 shadow-sm">
+    <div class="flex flex-wrap">
+      <div class="w-full gap-4">
+        <mat-form-field class="w-full">
+          <mat-label for="name">Name</mat-label>
+          <input
+            matInput
+            type="text"
+            id="name"
+            name="name"
+            [(ngModel)]="brandName"
+          />
+        </mat-form-field>
+      </div>
+      <div class="flex w-full justify-center">
+        @if (isEdit) {
+          <button
+            mat-raised-button
+            color="primary"
+            class="mb-2"
+            (click)="onUpdateBrand()"
+            [disabled]="!brandName"
+          >
+            Update
+          </button>
+        } @else {
+          <button
+            mat-raised-button
+            color="primary"
+            class="mb-2"
+            (click)="onAddBrand()"
+            [disabled]="!brandName"
+          >
+            Add
+          </button>
+        }
+      </div>
+    </div>
+  </form>
+</div>

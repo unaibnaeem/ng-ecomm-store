@@ -1,0 +1,42 @@
+<div class="flex items-center justify-center pb-16 pt-8">
+  <div class="w-11/12 max-w-md rounded-lg bg-white p-8 shadow-lg">
+    <h2 class="mb-6 text-center text-2xl font-semibold text-gray-700">
+      Register
+    </h2>
+
+    <form [formGroup]="registerForm">
+      <div class="mb-4">
+        <mat-form-field class="w-full">
+          <mat-label>Name</mat-label>
+          <input matInput type="text" formControlName="name" required />
+        </mat-form-field>
+      </div>
+
+      <div class="mb-4">
+        <mat-form-field class="w-full">
+          <mat-label>Email</mat-label>
+          <input matInput type="email" formControlName="email" required />
+        </mat-form-field>
+      </div>
+
+      <div class="mb-4">
+        <mat-form-field class="w-full">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" required />
+        </mat-form-field>
+      </div>
+
+      <button
+        class="w-full rounded-lg bg-blue-500 py-2 text-white transition duration-200"
+        (click)="onRegister()"
+        [disabled]="registerForm.invalid"
+        [ngClass]="{
+          'cursor-pointer': registerForm.valid,
+          'cursor-not-allowed': registerForm.invalid,
+        }"
+      >
+        Register
+      </button>
+    </form>
+  </div>
+</div>

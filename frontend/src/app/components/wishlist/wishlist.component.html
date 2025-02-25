@@ -1,0 +1,38 @@
+<div class="container mx-auto px-6 py-8">
+  @if (wishlistService.wishlist.length > 0) {
+    <h3 class="mb-8 text-center text-2xl font-semibold text-gray-800">
+      Your Wishlist ❤️
+    </h3>
+
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      @for (product of wishlistService.wishlist; track $index) {
+        <app-product-card
+          [product]="product"
+          class="transform rounded-lg shadow-lg transition-transform hover:scale-105"
+        ></app-product-card>
+      }
+    </div>
+  } @else {
+    <div
+      class="flex flex-col items-center justify-center rounded-lg bg-white p-10 shadow-md"
+    >
+      <img
+        src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
+        alt="Empty Wishlist"
+        class="mb-4 h-20 w-20 opacity-75"
+      />
+      <h4 class="text-lg font-semibold text-gray-700">
+        Your wishlist is empty
+      </h4>
+      <p class="mb-4 text-sm text-gray-500">
+        Start browsing to add items to your wishlist.
+      </p>
+      <a
+        routerLink="/"
+        class="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700"
+      >
+        Browse Products
+      </a>
+    </div>
+  }
+</div>

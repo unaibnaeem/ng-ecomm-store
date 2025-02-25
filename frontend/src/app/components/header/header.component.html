@@ -1,0 +1,225 @@
+<header class="border-b border-gray-300 bg-white shadow-md">
+  <div class="container mx-auto flex items-center justify-between px-6 py-4">
+    <div class="flex cursor-pointer items-center" (click)="onLogoClick()">
+      <span class="text-2xl font-semibold text-gray-800">E-Commerce Store</span>
+    </div>
+
+    @if (shouldShowSearchBar) {
+      <div class="relative hidden w-96 max-w-lg items-center lg:flex">
+        <input
+          type="text"
+          id="search"
+          name="search"
+          placeholder="Search..."
+          (keyup.enter)="onSearch($event)"
+          [(ngModel)]="searchTerm"
+          class="w-full rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <svg
+          class="absolute right-3 top-2 h-5 w-5 text-gray-500"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-4.35-4.35M16 10a6 6 0 1 0-12 0 6 6 0 0 0 12 0z"
+          ></path>
+        </svg>
+      </div>
+    }
+
+    <button
+      class="block text-gray-700 focus:outline-none lg:hidden"
+      (click)="toggleMobileMenu()"
+    >
+      <svg
+        class="h-6 w-6"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 6h16M4 12h16m-7 6h7"
+        ></path>
+      </svg>
+    </button>
+
+    <div class="hidden items-center space-x-4 lg:flex">
+      @if (authService.isLoggedIn) {
+        @if (authService.isAdmin) {
+          <a class="font-medium text-gray-700" routerLink="/admin">Dashboard</a>
+        } @else {
+          <a class="font-medium text-gray-700" routerLink="/profile">{{
+            authService.userName
+          }}</a>
+        }
+
+        @if (!authService.isAdmin) {
+          <a
+            class="cursor-pointer text-gray-600 transition hover:text-gray-900"
+            routerLink="/wishlist"
+            >Wishlist</a
+          >
+          <a
+            class="cursor-pointer text-gray-600 transition hover:text-gray-900"
+            routerLink="/cart"
+            >Cart</a
+          >
+          <a
+            class="cursor-pointer text-gray-600 transition hover:text-gray-900"
+            routerLink="/orders"
+            >Orders</a
+          >
+        }
+        <a
+          class="cursor-pointer text-gray-600 transition hover:text-gray-900"
+          (click)="onLogout()"
+          >Logout</a
+        >
+      } @else {
+        <a
+          class="cursor-pointer text-gray-600 transition hover:text-gray-900"
+          routerLink="/login"
+          >Log In</a
+        >
+        <a
+          class="ml-4 rounded-lg border border-blue-500 bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
+          routerLink="/register"
+        >
+          Sign Up
+        </a>
+      }
+    </div>
+  </div>
+
+  @if (isMobileMenuOpen) {
+    <div
+      class="border-t border-gray-200 bg-white py-4 transition-all duration-300 lg:hidden"
+    >
+      <div class="flex flex-col items-center space-y-3">
+        @if (shouldShowSearchBar) {
+          <div class="relative w-10/12">
+            <input
+              type="text"
+              id="search"
+              name="search"
+              placeholder="Search..."
+              (keyup.enter)="onSearch($event)"
+              [(ngModel)]="searchTerm"
+              class="w-full rounded-lg border border-gray-300 bg-gray-100 px-4 py-2 text-gray-700 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+            <svg
+              class="absolute right-3 top-2 h-5 w-5 text-gray-500"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35M16 10a6 6 0 1 0-12 0 6 6 0 0 0 12 0z"
+              ></path>
+            </svg>
+          </div>
+        }
+
+        @if (authService.isLoggedIn) {
+          @if (authService.isAdmin) {
+            <a
+              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center font-medium text-gray-700 transition hover:bg-gray-300 hover:text-gray-900"
+              routerLink="/admin"
+              >Dashboard</a
+            >
+          } @else {
+            <a
+              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center font-medium text-gray-700 transition hover:bg-gray-300 hover:text-gray-900"
+              routerLink="/profile"
+              >{{ authService.userName }}</a
+            >
+          }
+
+          @if (!authService.isAdmin) {
+            <a
+              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+              routerLink="/wishlist"
+              >Wishlist</a
+            >
+            <a
+              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+              routerLink="/cart"
+              >Cart</a
+            >
+            <a
+              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+              routerLink="/orders"
+              >Orders</a
+            >
+          }
+          <a
+            class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+            (click)="onLogout()"
+            >Logout</a
+          >
+        } @else {
+          <a
+            class="block w-10/12 rounded-lg border border-gray-300 bg-white px-4 py-3 text-center text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+            routerLink="/login"
+            >Log In</a
+          >
+          <a
+            class="block w-10/12 rounded-lg border border-blue-500 bg-blue-500 px-4 py-3 text-center text-white transition hover:bg-blue-600"
+            routerLink="/register"
+            >Sign Up</a
+          >
+        }
+      </div>
+    </div>
+  }
+
+  @if (authService.isLoggedIn) {
+    <nav class="relative border-t border-gray-200 bg-gray-50">
+      <div class="container mx-auto flex items-center justify-between">
+        <button
+          class="left-0 block p-2 text-gray-600"
+          (click)="scrollCategories(-200)"
+        >
+          ◀
+        </button>
+
+        <ul
+          #categoryListContainer
+          class="scrollbar-hide flex space-x-6 overflow-x-auto whitespace-nowrap px-4 py-3 text-gray-700 transition-all duration-300"
+          style="scrollbar-width: none; -ms-overflow-style: none"
+        >
+          @for (category of categoryList; track $index) {
+            <li class="flex-shrink-0">
+              <a
+                class="cursor-pointer transition hover:text-blue-500"
+                (click)="onSelectCategory(category)"
+              >
+                {{ category.name }}
+              </a>
+            </li>
+          }
+        </ul>
+
+        <button
+          class="right-0 block p-2 text-gray-600"
+          (click)="scrollCategories(200)"
+        >
+          ▶
+        </button>
+      </div>
+    </nav>
+  }
+</header>

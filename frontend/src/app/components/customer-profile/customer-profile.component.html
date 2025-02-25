@@ -1,0 +1,49 @@
+<div class="bg-gra flex items-center justify-center pb-16 pt-8">
+  <div class="w-11/12 max-w-md rounded-lg bg-white p-8 shadow-xl">
+    <div class="flex flex-col items-center">
+      <div class="h-24 w-24">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-full w-full text-gray-500"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M12 2a5 5 0 00-5 5v1a5 5 0 0010 0V7a5 5 0 00-5-5zM4 21a8 8 0 0116 0H4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </div>
+
+      <h2 class="mt-3 text-2xl font-semibold text-gray-800">Profile</h2>
+      <p class="text-gray-500">Customer Information</p>
+    </div>
+
+    <div class="mt-6 space-y-4">
+      <div class="flex items-center">
+        <span class="w-24 font-medium text-gray-700">Name:</span>
+        <span class="text-gray-900">{{ authService.userName }}</span>
+      </div>
+      <div class="flex items-center">
+        <span class="w-24 font-medium text-gray-700">Email:</span>
+        <span class="text-gray-900">{{ authService.userEmail }}</span>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-center space-x-4">
+      <button
+        class="cursor-not-allowed rounded-lg bg-blue-500 px-4 py-2 text-white opacity-50 transition"
+        disabled
+      >
+        Edit Profile
+      </button>
+      <button
+        class="rounded-lg bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+        (click)="onLogout()"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+</div>

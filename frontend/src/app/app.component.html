@@ -1,0 +1,18 @@
+<div class="flex flex-col">
+  <app-header />
+  <div class="min-h-screen">
+    <router-outlet />
+  </div>
+  <app-footer />
+
+  @if (isShowScroll) {
+    <button
+      mat-fab
+      color="primary"
+      class="scroll-to-top"
+      (click)="scrollToTop()"
+    >
+      <mat-icon>arrow_upward</mat-icon>
+    </button>
+  }
+</div>
