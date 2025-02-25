@@ -1,9 +1,10 @@
-const User = require("../db/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
+const User = require("../db/user");
+
 async function registerUser(model) {
-  const hashPassword = await bcrypt.hash(model.password, 10);
+  const hashPassword = await bcrypt.hash(model.password, 12);
 
   let user = new User({
     name: model.name,
@@ -16,9 +17,10 @@ async function registerUser(model) {
 
 async function loginUser(model) {
   const user = await User.findOne({ email: model.email });
-  const isPasswordMatched = await bcrypt.compare(model.password, user.password);
 
   if (!user) return null;
+
+  const isPasswordMatched = await bcrypt.compare(model.password, user.password);
 
   if (user && isPasswordMatched) {
     let token = jwt.sign(
@@ -28,8 +30,8 @@ async function loginUser(model) {
         email: user.email,
         isAdmin: user.isAdmin,
       },
-      "secretToken",
-      { expiresIn: "30d" }
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
     );
 
     return { token, user };

@@ -24,6 +24,15 @@ app.use(
     credentials: true,
   })
 );
+app.use((req, res, next) => {
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers["x-forwarded-proto"] !== "https"
+  ) {
+    return res.redirect("https://" + req.headers.host + req.url);
+  }
+  next();
+});
 
 app.use("/auth", authRoutes);
 app.use("/", verifyToken, customerRoutes);
@@ -38,15 +47,18 @@ app.get("/", (req, res) => {
 });
 
 async function connectDb() {
-  await mongoose.connect("mongodb://127.0.0.1:27017", {
-    dbName: "ng-e-comm-store-db",
-  });
-  console.log("Mongodb Connected");
+  try {
+    await mongoose.connect("mongodb://127.0.0.1:27017", {
+      dbName: "ng-e-comm-store-db",
+    });
+    console.log("Mongodb Connected");
+  } catch (err) {
+    console.error("MongoDB Connection Failed!", err);
+    process.exit(1);
+  }
 }
 
-connectDb().catch((err) => {
-  console.error(err);
-});
+connectDb();
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);

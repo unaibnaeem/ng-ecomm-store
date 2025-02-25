@@ -1,12 +1,18 @@
 const jwt = require("jsonwebtoken");
 
 function verifyToken(req, res, next) {
-  const token = req.header("Authorization")?.split(" ")[1];
+  const authHeader = req.header("Authorization");
+
+  if (!authHeader) {
+    return res.status(401).json({ error: "Access Denied! No token provided." });
+  }
+
+  const token = authHeader.split(" ")[1];
 
   if (!token) {
-    return res.status(401).send({
-      error: "Access Denied!",
-    });
+    return res
+      .status(401)
+      .json({ error: "Access Denied! Invalid token format." });
   }
 
   try {
@@ -15,6 +21,11 @@ function verifyToken(req, res, next) {
     req.user = decode;
     next();
   } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res
+        .status(401)
+        .json({ error: "Token expired! Please refresh your session." });
+    }
     return res.status(401).send({
       error: "Invalid or Expired Token!",
     });
@@ -22,13 +33,17 @@ function verifyToken(req, res, next) {
 }
 
 function isAdmin(req, res, next) {
-  if (req.user && req.user.isAdmin) {
-    next();
-  } else {
-    return res.status(403).send({
-      error: "Forbidden!",
-    });
+  if (!req.user) {
+    return res
+      .status(401)
+      .json({ error: "Unauthorized! Token missing or invalid." });
   }
+
+  if (!req.user.isAdmin) {
+    return res.status(403).json({ error: "Forbidden! Admin access required." });
+  }
+
+  next();
 }
 
 module.exports = { verifyToken, isAdmin };

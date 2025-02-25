@@ -38,8 +38,11 @@ router.post("/login", async (req, res) => {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
-        domain: "localhost",
+        sameSite: "Strict",
+        domain:
+          process.env.NODE_ENV === "production"
+            ? "yourdomain.com"
+            : "localhost",
         path: "/auth/refresh-token",
       });
 
