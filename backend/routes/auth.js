@@ -49,12 +49,12 @@ router.post("/login", async (req, res) => {
       res.json({ accessToken, user: result.user });
     } else {
       res.status(400).json({
-        error: "Incorrect Email or Password.",
+        error: "Incorrect Email or Password",
       });
     }
   } else {
     res.status(400).json({
-      error: "Please provide Email and Password.",
+      error: "Please provide Email and Password",
     });
   }
 });
