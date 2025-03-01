@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
         sameSite: "Strict",
         domain:
           process.env.NODE_ENV === "production"
-            ? "yourdomain.com"
+            ? "ng-ecomm-store.vercel.app"
             : "localhost",
         path: "/auth/refresh-token",
       });
