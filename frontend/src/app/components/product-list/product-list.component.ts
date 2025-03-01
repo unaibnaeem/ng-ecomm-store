@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
@@ -18,6 +19,7 @@ import { type Brand } from '../../types/brand';
 @Component({
   selector: 'app-product-list',
   imports: [
+    NgClass,
     FormsModule,
     MatSelectModule,
     MatButtonModule,
@@ -36,6 +38,7 @@ export class ProductListComponent {
   page = 1;
   pageSize = 6;
   isNext = true;
+  showFilters: boolean = false;
 
   products: Product[] = [];
   categories: Category[] = [];
@@ -83,8 +86,6 @@ export class ProductListComponent {
         )
         .subscribe({
           next: (result) => {
-            console.log('Received products:', result.length);
-
             this.products = result;
 
             this.isNext = result.length === this.pageSize;
