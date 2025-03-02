@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
       res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
-        sameSite: "Strict",
+        sameSite: "Lax",
         domain:
           process.env.NODE_ENV === "production"
             ? "ng-ecomm-store.vercel.app"
