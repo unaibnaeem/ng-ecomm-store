@@ -45,7 +45,6 @@ export class BrandsComponent {
 
   private getServerData() {
     this.brandService.getBrands().subscribe((result) => {
-      console.log(result);
       this.dataSource.data = result;
     });
   }

@@ -39,17 +39,16 @@ export class ProductCardComponent {
 
   onAddToWishlist(event: Event, product: Product) {
     event.stopPropagation();
-    console.log('Added to wishlist:', product);
 
     if (this.isInWishlist(product)) {
       this.wishlistService.removeFromWishlist(product._id!).subscribe({
-        next: (result) => {
+        next: () => {
           this.wishlistService.initWishlist();
         },
       });
     } else {
       this.wishlistService.addToWishlist(product._id!).subscribe({
-        next: (result) => {
+        next: () => {
           this.wishlistService.initWishlist();
         },
       });
@@ -67,11 +66,10 @@ export class ProductCardComponent {
 
   onAddToCart(event: Event, product: Product) {
     event.stopPropagation();
-    console.log('Added to cart:', product);
 
     if (this.isInCart(product)) {
       this.cartService.removeFromCart(product._id!).subscribe({
-        next: (result) => {
+        next: () => {
           this.cartService.initCart();
         },
       });

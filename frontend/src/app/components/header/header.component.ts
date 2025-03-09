@@ -56,6 +56,8 @@ export class HeaderComponent {
         pairwise(),
       )
       .subscribe(([previousRoute, currentRoute]) => {
+        this.isMobileMenuOpen = false;
+
         const isLeavingSearchPage =
           previousRoute.url.includes('/products') &&
           !currentRoute.url.includes('/products');
@@ -109,9 +111,9 @@ export class HeaderComponent {
     }
   }
 
-  onSearch(e: any) {
-    if (e.target.value) {
-      this.router.navigateByUrl('products?search=' + e.target.value);
+  onSearch(event: any) {
+    if (event.target.value) {
+      this.router.navigateByUrl('products?search=' + event.target.value);
     }
   }
 

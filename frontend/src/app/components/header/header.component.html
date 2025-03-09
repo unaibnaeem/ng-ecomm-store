@@ -91,7 +91,7 @@
           >Log In</a
         >
         <a
-          class="ml-4 rounded-lg border border-blue-500 bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
+          class="ml-4 cursor-pointer rounded-lg border border-blue-500 bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
           routerLink="/register"
         >
           Sign Up
@@ -136,13 +136,13 @@
         @if (authService.isLoggedIn) {
           @if (authService.isAdmin) {
             <a
-              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center font-medium text-gray-700 transition hover:bg-gray-300 hover:text-gray-900"
+              class="block w-10/12 cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-center font-medium text-gray-700 transition hover:bg-gray-300 hover:text-gray-900"
               routerLink="/admin"
               >Dashboard</a
             >
           } @else {
             <a
-              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center font-medium text-gray-700 transition hover:bg-gray-300 hover:text-gray-900"
+              class="block w-10/12 cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-center font-medium text-gray-700 transition hover:bg-gray-300 hover:text-gray-900"
               routerLink="/profile"
               >{{ authService.userName }}</a
             >
@@ -150,34 +150,34 @@
 
           @if (!authService.isAdmin) {
             <a
-              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+              class="block w-10/12 cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
               routerLink="/wishlist"
               >Wishlist</a
             >
             <a
-              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+              class="block w-10/12 cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
               routerLink="/cart"
               >Cart</a
             >
             <a
-              class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+              class="block w-10/12 cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
               routerLink="/orders"
               >Orders</a
             >
           }
           <a
-            class="block w-10/12 rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
+            class="block w-10/12 cursor-pointer rounded-lg bg-gray-200 px-4 py-3 text-center text-gray-600 transition hover:bg-gray-300 hover:text-gray-900"
             (click)="onLogout()"
             >Logout</a
           >
         } @else {
           <a
-            class="block w-10/12 rounded-lg border border-gray-300 bg-white px-4 py-3 text-center text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+            class="block w-10/12 cursor-pointer rounded-lg border border-gray-300 bg-white px-4 py-3 text-center text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
             routerLink="/login"
             >Log In</a
           >
           <a
-            class="block w-10/12 rounded-lg border border-blue-500 bg-blue-500 px-4 py-3 text-center text-white transition hover:bg-blue-600"
+            class="block w-10/12 cursor-pointer rounded-lg border border-blue-500 bg-blue-500 px-4 py-3 text-center text-white transition hover:bg-blue-600"
             routerLink="/register"
             >Sign Up</a
           >

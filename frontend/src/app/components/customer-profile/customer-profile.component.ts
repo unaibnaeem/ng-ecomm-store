@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
@@ -10,11 +9,9 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './customer-profile.component.scss',
 })
 export class CustomerProfileComponent {
-  router = inject(Router);
   authService = inject(AuthService);
 
   onLogout() {
     this.authService.logoutUser();
-    this.router.navigateByUrl('/login');
   }
 }

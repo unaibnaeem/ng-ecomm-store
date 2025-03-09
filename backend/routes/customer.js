@@ -103,8 +103,6 @@ router.get("/featured-products", async (req, res) => {
 });
 
 router.get("/wishlist", async (req, res) => {
-  console.log(req.user);
-
   const userId = req.user.id;
 
   const items = await getWishlist(userId);
@@ -113,8 +111,6 @@ router.get("/wishlist", async (req, res) => {
 });
 
 router.post("/wishlist/:id", async (req, res) => {
-  console.log(req.user);
-
   const userId = req.user.id;
   const productId = req.params.id;
 
@@ -124,8 +120,6 @@ router.post("/wishlist/:id", async (req, res) => {
 });
 
 router.delete("/wishlist/:id", async (req, res) => {
-  console.log(req.user);
-
   const userId = req.user.id;
   const productId = req.params.id;
 
@@ -135,8 +129,6 @@ router.delete("/wishlist/:id", async (req, res) => {
 });
 
 router.get("/cart", async (req, res) => {
-  console.log(req.user);
-
   const userId = req.user.id;
 
   const items = await getCartItems(userId);
@@ -145,8 +137,6 @@ router.get("/cart", async (req, res) => {
 });
 
 router.post("/cart/:id", async (req, res) => {
-  console.log(req.user);
-
   const userId = req.user.id;
   const productId = req.params.id;
   const quantity = req.body.quantity;
@@ -157,8 +147,6 @@ router.post("/cart/:id", async (req, res) => {
 });
 
 router.delete("/cart/:id", async (req, res) => {
-  console.log(req.user);
-
   const userId = req.user.id;
   const productId = req.params.id;
 

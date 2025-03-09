@@ -52,7 +52,6 @@ export class ProductsComponent {
   private getServerData() {
     this.productService.getProducts().subscribe({
       next: (result: any) => {
-        console.log(result);
         this.dataSource.data = result;
       },
     });
@@ -74,7 +73,7 @@ export class ProductsComponent {
 
   onDeleteProduct(id: string) {
     this.productService.deleteProduct(id).subscribe({
-      next: (result: any) => {
+      next: () => {
         alert('Product Deleted!');
         this.getServerData();
       },

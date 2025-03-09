@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,7 @@ import { BrandService } from '../../../services/brand.service';
 
 @Component({
   selector: 'app-brand-form',
-  imports: [FormsModule, RouterLink, MatButtonModule, MatInputModule],
+  imports: [FormsModule, MatButtonModule, MatInputModule],
   templateUrl: './brand-form.component.html',
   styleUrl: './brand-form.component.scss',
 })
@@ -28,14 +28,12 @@ export class BrandFormComponent {
     if (this.id) {
       this.isEdit = true;
       this.brandService.getBrandById(this.id).subscribe((result: any) => {
-        console.log(result);
         this.brandName = result.name;
       });
     }
   }
 
   onAddBrand() {
-    console.log(this.brandName);
     this.brandService.addBrand(this.brandName).subscribe({
       next: (result: any) => {
         alert('Brand Added!');
@@ -49,7 +47,6 @@ export class BrandFormComponent {
   }
 
   onUpdateBrand() {
-    console.log(this.brandName);
     this.brandService.updateBrand(this.id, this.brandName).subscribe({
       next: (result: any) => {
         alert('Brand Updated!');

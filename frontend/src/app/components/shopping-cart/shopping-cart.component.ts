@@ -93,18 +93,13 @@ export class ShoppingCartComponent {
   }
 
   async initializeStripeElements() {
-    console.log('Initializing Stripe Elements...');
-
     if (this.cardElement && this.cardElementMounted) {
-      console.log('Destroying existing card element...');
       this.cardElement.unmount();
       this.cardElement = null;
       this.cardElementMounted = false;
     }
 
     this.stripe = await loadStripe(environment.stripePublicKey);
-
-    console.log('Stripe loaded:', this.stripe);
 
     if (!this.stripe) {
       console.error('Stripe failed to load.');
@@ -144,10 +139,8 @@ export class ShoppingCartComponent {
         if (this.cardElement) {
           this.cardElement.mount(this.cardElementContainer.nativeElement);
           this.cardElementMounted = true;
-          console.log('Stripe card element successfully mounted.');
 
           this.cardElement?.on('change', (event) => {
-            console.log('Card input changed:', event);
             this.isCardValid = event.complete;
             this.cdr.detectChanges();
           });
@@ -161,12 +154,6 @@ export class ShoppingCartComponent {
   }
 
   get isPaymentDisabled() {
-    console.log(
-      'isContinueDisabled:',
-      this.addressForm.invalid,
-      this.addressForm.value.paymentType,
-      this.isCardValid,
-    );
     return (
       this.addressForm.invalid ||
       (this.addressForm.value.paymentType === 'card' && !this.isCardValid)
@@ -238,14 +225,10 @@ export class ShoppingCartComponent {
       totalAmount: this.totalAmount,
     };
 
-    console.log(order);
-
     if (order.paymentType === 'card') {
       await new Promise((resolve) => setTimeout(resolve, 500));
       if (!this.cardElementMounted) {
-        console.error(
-          'Card element still not mounted after delay. Exiting payment process.',
-        );
+        console.error('Card element not mounted. Exiting payment process.');
         return;
       }
 
@@ -293,8 +276,7 @@ export class ShoppingCartComponent {
 
   placeOrder(order: Order) {
     this.orderService.addOrder(order).subscribe({
-      next: (result) => {
-        console.log(result);
+      next: () => {
         alert('Order Placed!');
         this.cartService.initCart();
         this.router.navigateByUrl('/orders');

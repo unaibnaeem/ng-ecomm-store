@@ -16,17 +16,24 @@ import { type Product } from '../../types/product';
 export class FeaturedProductsComponent {
   featuredProducts: Product[] = [];
   paginatedProducts: Product[] = [];
+  isLoading: boolean = false;
 
   customerService = inject(CustomerService);
   paginationService = inject(PaginationService);
 
   ngOnInit() {
+    this.isLoading = true;
+
     this.customerService.getFeaturedProducts().subscribe({
       next: (result) => {
         this.featuredProducts = result;
         this.paginationService.calculateTotalPages(
           this.featuredProducts.length,
         );
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
       },
     });
   }

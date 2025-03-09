@@ -15,14 +15,20 @@ import { type Product } from '../../types/product';
 })
 export class CustomerOrdersComponent {
   orders: Order[] = [];
+  isLoading: boolean = false;
 
   orderService = inject(OrderService);
 
   ngOnInit() {
+    this.isLoading = true;
+
     this.orderService.getOrders().subscribe({
       next: (result) => {
         this.orders = result;
-        console.log(this.orders);
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
       },
     });
   }

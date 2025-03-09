@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   FormArray,
   FormBuilder,
@@ -22,7 +22,6 @@ import { type Brand } from '../../../types/brand';
 @Component({
   selector: 'app-product-form',
   imports: [
-    RouterLink,
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
@@ -98,7 +97,6 @@ export class ProductFormComponent {
 
   onAddProduct() {
     let value = this.productForm.value;
-    console.log(value);
 
     this.productService.addProduct(value as any).subscribe({
       next: (result: any) => {

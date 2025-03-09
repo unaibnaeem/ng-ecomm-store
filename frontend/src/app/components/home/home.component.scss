@@ -1,0 +1,23 @@
+.animate-pulse {
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.bg-gray-300 {
+  background-color: #e0e0e0;
+}
+
+.rounded-md {
+  border-radius: 8px;
+}

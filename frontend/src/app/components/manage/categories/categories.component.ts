@@ -45,7 +45,6 @@ export class CategoriesComponent {
 
   private getServerData() {
     this.categoryService.getCategories().subscribe((result) => {
-      console.log(result);
       this.dataSource.data = result;
     });
   }

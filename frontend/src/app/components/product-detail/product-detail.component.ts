@@ -31,11 +31,12 @@ import { type Review } from '../../types/review';
 export class ProductDetailComponent {
   product!: Product;
   selectedImage!: string;
-  simiarProducts: Product[] = [];
+  similarProducts: Product[] = [];
   loadingSkeletons = new Array(4);
 
   reviews: Review[] = [];
   review: Review = { name: '', rating: 5, comment: '' };
+  visibleReviews = 5;
 
   route = inject(ActivatedRoute);
   authService = inject(AuthService);
@@ -62,13 +63,11 @@ export class ProductDetailComponent {
             rating: Number(review.rating),
           })) || [];
 
-        console.log(this.reviews);
-
         this.customerService
           .getProducts('', this.product.categoryId, '', '', -1, 1, 4)
           .subscribe({
             next: (result) => {
-              this.simiarProducts = result.filter(
+              this.similarProducts = result.filter(
                 (p) => p._id !== this.product._id,
               );
             },
@@ -83,10 +82,6 @@ export class ProductDetailComponent {
     );
   }
 
-  getStars(rating: number): string {
-    return '⭐'.repeat(rating);
-  }
-
   isInWishlist(product: Product) {
     let productExists = this.wishlistService.wishlist.find(
       (x) => x._id === product._id,
@@ -98,17 +93,16 @@ export class ProductDetailComponent {
 
   onAddToWishlist(event: Event, product: Product) {
     event.stopPropagation();
-    console.log('Added to wishlist:', product);
 
     if (this.isInWishlist(product)) {
       this.wishlistService.removeFromWishlist(product._id!).subscribe({
-        next: (result) => {
+        next: () => {
           this.wishlistService.initWishlist();
         },
       });
     } else {
       this.wishlistService.addToWishlist(product._id!).subscribe({
-        next: (result) => {
+        next: () => {
           this.wishlistService.initWishlist();
         },
       });
@@ -126,11 +120,10 @@ export class ProductDetailComponent {
 
   onAddToCart(event: Event, product: Product) {
     event.stopPropagation();
-    console.log('Added to cart:', product);
 
     if (this.isInCart(product)) {
       this.cartService.removeFromCart(product._id!).subscribe({
-        next: (result) => {
+        next: () => {
           this.cartService.initCart();
         },
       });
@@ -143,18 +136,26 @@ export class ProductDetailComponent {
     }
   }
 
+  showMoreReviews() {
+    this.visibleReviews += 5;
+  }
+
+  showLessReviews() {
+    this.visibleReviews = 5;
+  }
+
+  getStars(rating: number): string {
+    return '⭐'.repeat(rating);
+  }
+
   onSubmitReview(event: Event) {
     event.preventDefault();
-    console.log('Review before submission:', this.review);
     if (!this.review.name.trim() || !this.review.comment.trim()) return;
 
     this.review.rating = +this.review.rating;
 
-    console.log('Submitting Review:', this.review);
-
     this.customerService.addReview(this.product._id!, this.review).subscribe({
       next: (result) => {
-        console.log('Review response:', result);
         this.reviews = result.reviews;
         this.review = { name: '', rating: 5, comment: '' };
       },

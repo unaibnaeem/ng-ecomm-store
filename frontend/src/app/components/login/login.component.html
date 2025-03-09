@@ -13,7 +13,23 @@
       <div class="mb-4">
         <mat-form-field class="w-full">
           <mat-label>Password</mat-label>
-          <input matInput type="password" formControlName="password" required />
+          <input
+            matInput
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="password"
+            required
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            type="button"
+            class="mr-4"
+            (click)="togglePasswordVisibility()"
+          >
+            <mat-icon>{{
+              showPassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
         </mat-form-field>
       </div>
 
@@ -28,6 +44,22 @@
       >
         Login
       </button>
+      <div class="mt-4 text-center text-sm text-gray-600">
+        Don't have an account?
+        <a routerLink="/register" class="text-blue-500 hover:underline"
+          >Sign Up</a
+        >
+      </div>
     </form>
+    @if (errorMessage) {
+      <div class="mt-4 rounded-lg bg-red-100 p-3 text-sm text-red-600">
+        {{ errorMessage }}
+      </div>
+    }
+    <div class="mt-4 rounded-lg bg-gray-100 p-3 text-sm text-gray-600">
+      <p><strong>Admin Login:</strong></p>
+      <p><strong>Email:</strong> admin&#64;admin.com</p>
+      <p><strong>Password:</strong> admin&#64;123</p>
+    </div>
   </div>
 </div>

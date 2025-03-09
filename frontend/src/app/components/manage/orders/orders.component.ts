@@ -17,17 +17,24 @@ import { type Product } from '../../../types/product';
 })
 export class OrdersComponent {
   allOrders: Order[] = [];
+  isLoading: boolean = false;
 
   orderService = inject(OrderService);
   snackBar = inject(MatSnackBar);
 
   ngOnInit() {
+    this.isLoading = true;
+
     this.orderService.getAdminOrders().subscribe({
       next: (result) => {
         this.allOrders = result.map((order) => ({
           ...order,
           status: order.status || 'Processing',
         }));
+        this.isLoading = false;
+      },
+      error: () => {
+        this.isLoading = false;
       },
     });
   }

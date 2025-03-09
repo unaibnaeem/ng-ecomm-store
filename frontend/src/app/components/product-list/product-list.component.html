@@ -9,7 +9,6 @@
         <mat-icon>filter_list</mat-icon>
       </button>
     </div>
-
     <div
       class="w-full md:mr-6 md:w-1/4"
       [ngClass]="{ hidden: !showFilters, block: showFilters, 'md:block': true }"
@@ -30,7 +29,6 @@
             }
           </mat-select>
         </mat-form-field>
-
         <mat-form-field class="w-full">
           <mat-label>Select Brand</mat-label>
           <mat-select [(ngModel)]="brandId" (selectionChange)="getProducts()">
@@ -48,7 +46,6 @@
             </button>
           }
         </mat-form-field>
-
         <mat-form-field class="w-full">
           <mat-label>Sort By</mat-label>
           <mat-select (selectionChange)="onChangeOrder($event)">
@@ -58,41 +55,46 @@
         </mat-form-field>
       </div>
     </div>
-
     <div class="flex flex-1 flex-col">
-      <h5 class="hidden text-lg font-semibold text-gray-800 md:block">
-        Products
-      </h5>
-
-      <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        @for (product of products; track $index) {
-          <app-product-card [product]="product" />
-        } @empty {
-          <div
-            class="col-span-full flex flex-col items-center justify-center py-12 text-center"
+      @if (!isLoading) {
+        <h5 class="hidden text-lg font-semibold text-gray-800 md:block">
+          Products
+        </h5>
+        <div class="mt-2 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          @for (product of products; track $index) {
+            <app-product-card [product]="product" />
+          } @empty {
+            <div
+              class="col-span-full flex flex-col items-center justify-center py-12 text-center"
+            >
+              <p class="text-xl font-semibold text-gray-700">
+                No Products Found
+              </p>
+              <p class="text-gray-500">Try adjusting your filters.</p>
+            </div>
+          }
+        </div>
+        <div class="mt-auto flex justify-center pt-6">
+          <button
+            (click)="onChangePage(page - 1)"
+            [disabled]="page == 1"
+            class="mx-2 rounded-lg bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400 disabled:opacity-50"
           >
-            <p class="text-xl font-semibold text-gray-700">No Products Found</p>
-            <p class="text-gray-500">Try adjusting your filters.</p>
-          </div>
-        }
-      </div>
-
-      <div class="mt-auto flex justify-center pt-6">
-        <button
-          (click)="onChangePage(page - 1)"
-          [disabled]="page == 1"
-          class="mx-2 rounded-lg bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400 disabled:opacity-50"
-        >
-          Previous
-        </button>
-        <button
-          (click)="onChangePage(page + 1)"
-          [disabled]="!isNext"
-          class="mx-2 rounded-lg bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400 disabled:opacity-50"
-        >
-          Next
-        </button>
-      </div>
+            Previous
+          </button>
+          <button
+            (click)="onChangePage(page + 1)"
+            [disabled]="!isNext"
+            class="mx-2 rounded-lg bg-gray-300 px-4 py-2 text-gray-700 hover:bg-gray-400 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      } @else {
+        <div class="flex justify-center py-6">
+          <div class="loader"></div>
+        </div>
+      }
     </div>
   </div>
 </div>

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,7 @@ import { CategoryService } from '../../../services/category.service';
 
 @Component({
   selector: 'app-category-form',
-  imports: [FormsModule, RouterLink, MatButtonModule, MatInputModule],
+  imports: [FormsModule, MatButtonModule, MatInputModule],
   templateUrl: './category-form.component.html',
   styleUrl: './category-form.component.scss',
 })
@@ -24,19 +24,16 @@ export class CategoryFormComponent {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    console.log(this.id);
 
     if (this.id) {
       this.isEdit = true;
       this.categoryService.getCategoryById(this.id).subscribe((result: any) => {
-        console.log(result);
         this.categoryName = result.name;
       });
     }
   }
 
   onAddCategory() {
-    console.log(this.categoryName);
     this.categoryService
       .addCategory(this.categoryName)
       .subscribe((result: any) => {
@@ -46,7 +43,6 @@ export class CategoryFormComponent {
   }
 
   onUpdateCategory() {
-    console.log(this.categoryName);
     this.categoryService.updateCategory(this.id, this.categoryName).subscribe({
       next: (result: any) => {
         alert('Category Updated!');

@@ -24,6 +24,7 @@ export class HomeComponent {
   newProducts: Product[] = [];
   featuredProducts: Product[] = [];
   regularProducts: Product[] = [];
+  isLoading = false;
 
   private homeResetSubscription!: Subscription;
 
@@ -50,10 +51,13 @@ export class HomeComponent {
   }
 
   loadProducts() {
+    this.isLoading = true;
+
     this.customerService.getRegularProducts().subscribe({
       next: (result: Product[]) => {
         this.regularProducts = result;
         this.paginationService.calculateTotalPages(result.length);
+        this.checkLoadingState();
       },
     });
 
@@ -61,14 +65,26 @@ export class HomeComponent {
       this.customerService.getFeaturedProducts().subscribe({
         next: (result: Product[]) => {
           this.featuredProducts = result;
+          this.checkLoadingState();
         },
       });
 
       this.customerService.getNewProducts().subscribe({
         next: (result: Product[]) => {
           this.newProducts = result;
+          this.checkLoadingState();
         },
       });
+    }
+  }
+
+  checkLoadingState() {
+    if (
+      this.regularProducts.length &&
+      this.featuredProducts.length &&
+      this.newProducts.length
+    ) {
+      this.isLoading = false;
     }
   }
 

@@ -39,6 +39,7 @@ export class ProductListComponent {
   pageSize = 6;
   isNext = true;
   showFilters: boolean = false;
+  isLoading: boolean = false;
 
   products: Product[] = [];
   categories: Category[] = [];
@@ -73,6 +74,8 @@ export class ProductListComponent {
   }
 
   getProducts() {
+    this.isLoading = true;
+
     setTimeout(() => {
       this.customerService
         .getProducts(
@@ -87,8 +90,11 @@ export class ProductListComponent {
         .subscribe({
           next: (result) => {
             this.products = result;
-
             this.isNext = result.length === this.pageSize;
+            this.isLoading = false;
+          },
+          error: () => {
+            this.isLoading = false;
           },
         });
     }, 500);

@@ -1,16 +1,16 @@
-<div class="my-10 px-40">
-  <div class="flex justify-between">
-    <h2 class="text-2xl font-bold">Manage Brands</h2>
+<div class="md:px-30 my-10 px-4 sm:px-20 lg:px-40">
+  <div class="flex flex-col items-center justify-between sm:flex-row">
+    <h3 class="text-xl font-bold sm:text-2xl">Manage Brands</h3>
     <button
       mat-raised-button
       color="primary"
-      class="mt-2"
+      class="sm:-mt-3"
       routerLink="/admin/brands/add"
     >
       Add New Brand
     </button>
   </div>
-  <div class="shadow">
+  <div class="mt-4 overflow-x-auto shadow">
     <mat-form-field class="w-full">
       <mat-label>Filter</mat-label>
       <input
@@ -38,7 +38,7 @@
           <button
             mat-raised-button
             color="accent"
-            class="mr-4"
+            class="mb-1 mr-4 sm:mb-0"
             [routerLink]="'/admin/brands/' + row._id"
           >
             Edit
